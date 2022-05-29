@@ -130,7 +130,7 @@ def simulate_surface_crn(manifest_filename, display_class = None,
     print(" Done.")
 
     if opts.capture_directory != None:
-        from signal import signal, SIGPIPE, SIG_DFL
+        # from signal import signal, SIGPIPE, SIG_DFL
         import subprocess as sp
         base_dir = opts.capture_directory
         MOVIE_DIRECTORY = base_dir
@@ -573,7 +573,7 @@ def simulate_surface_crn(manifest_filename, display_class = None,
                 else:
                     raise Exception("Unexpected OS name '" + os.name + "'")
 
-                signal(SIGPIPE, SIG_DFL)
+                #signal(SIGPIPE, SIG_DFL)
                 # width = display_surface.get_width()
                 # height = display_surface.get_height()
                 movie_filename = os.path.join(".", MOVIE_DIRECTORY,
