@@ -161,7 +161,8 @@ def simulate_surface_crn(manifest_filename, display_class = None,
         simulation = QueueSimulator(surface = grid,
                                     transition_rules = opts.transition_rules,
                                     seed = opts.rng_seed,
-                                    simulation_duration = opts.max_duration)
+                                    simulation_duration = opts.max_duration,
+                                    constraints=opts.constraints)
         simulation.init_wall_time = process_time()
     elif opts.simulation_type == "synchronous":
         simulation = SynchronousSimulator(
@@ -254,7 +255,7 @@ def simulate_surface_crn(manifest_filename, display_class = None,
                             caption = 'Uncache')
     save_image_button = PygButton(rect =
         (button_buffer, button_y, 30, button_height))
-    assets_folder = os.path.join(surface_crns.__path__[0], "assets")
+    assets_folder = os.path.join("G:\CSE590C\surface_crns\surface_crns", "assets")#surface_crns.__path__[0], "assets")
     camera_file = os.path.join(assets_folder, "camera.png")
     yellow_camera_file = os.path.join(assets_folder, "camera_yellow.png")
     green_camera_file  = os.path.join(assets_folder, "camera_green.png")

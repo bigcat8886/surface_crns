@@ -26,7 +26,7 @@ class QueueSimulator:
     Uses unimolecular and bimolecular reactions only.
     '''
     def __init__(self, surface = None, transition_rules = None, seed = None,
-                 simulation_duration = 100, debug = False):
+                 simulation_duration = 100, debug = False, constraints = None):
         self.debug = debug
         if transition_rules is None:
             self.rule_set = []
@@ -52,6 +52,17 @@ class QueueSimulator:
                     self.rules_by_state[input_state] = []
                 if not rule in self.rules_by_state[input_state]:
                     self.rules_by_state[input_state].append(rule)
+
+        # Build a mapping of states to constraints
+        # e.g. ['a', 'b', 3] -> {'a': ('b', 3), 'b': ('a', 3)}
+        self.constraints_by_state = dict()
+        for constraint in constraints:
+            if not constraint[0] in self.constraints_by_state:
+                self.constraints_by_state[constraint[0]] = []
+            self.constraints_by_state[constraint[0]].append((constraint[1], constraint[2]))
+            if not constraint[1] in self.constraints_by_state:
+                self.constraints_by_state[constraint[1]] = []
+            self.constraints_by_state[constraint[1]].append((constraint[0], constraint[2]))
 
         self.time = 0
         self.surface.set_global_state(self.init_state)
@@ -84,6 +95,20 @@ class QueueSimulator:
         final time.
         '''
         return len(self.event_queue) == 0 or self.time >= self.simulation_duration
+
+    def check_constraints_satisfy(self, input_pos, output_state):
+        '''
+        True iff all constraints still satisfied after transition.
+        '''
+        if output_state in self.constraints_by_state:
+            for constraint in self.constraints_by_state[output_state]:
+                all_nodes = self.surface.get_nodes_by_state(constraint[0])
+                dist = constraint[1]
+                for node in all_nodes:
+                    if math.dist(node.position, input_pos) > dist:
+                        return False
+        return True
+
 
     def process_next_reaction(self):
         local_debugging = False
@@ -131,6 +156,15 @@ class QueueSimulator:
                     if local_debugging:
                         print("ignored -- second reactant changed since " +
                               "event issued.")
+                    next_reaction = None
+                    continue
+                # if constraint not satisfied, don't run it
+                if not self.check_constraints_satisfy(input_pos = participants[0].position,
+                                                      output_state = outputs[0]) or \
+                    not self.check_constraints_satisfy(input_pos = participants[1].position,
+                                                      output_state = outputs[1]):
+                    if local_debugging:
+                        print("ignored -- constraint not satisfied.")
                     next_reaction = None
                     continue
                 # Change second reactant

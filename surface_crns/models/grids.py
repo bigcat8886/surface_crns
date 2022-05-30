@@ -63,6 +63,14 @@ class SquareGrid(object):
             for y in range(self.y_size):
                 self.grid[x,y].timestamp = 0
 
+    def get_nodes_by_state(self, state):
+        ret = []
+        for row in self.grid:
+            for n in row:
+                if n.state == state:
+                    ret.append(n)
+        return ret
+
     def set_global_state(self, state_grid):
         '''
         Set the states of nodes using a 2D array or numpy array of state
