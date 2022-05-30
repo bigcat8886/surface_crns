@@ -16,7 +16,7 @@
 # Run settings
 pixels_per_node    = 15
 #fps = 60
-debug = True
+# debug = True
 speedup_factor     = 200
 max_duration       = 10000
 node_display       = Text
@@ -24,7 +24,7 @@ node_display       = Text
 # geometry           = hex
 # rng_seed           = 123123123
 movie_title = maze_2_legs
-capture_directory = G:\CSE590C\results\maze-2-legs\
+# capture_directory = G:\CSE590C\results\maze-2-legs\
 
 !START_COLORMAP
 _: (0,0,0)
