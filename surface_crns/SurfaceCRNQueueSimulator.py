@@ -36,6 +36,8 @@ from time import process_time
 import pygame
 import pygame.locals as pygl
 
+from profiling import grid_timing
+
 
 pygame.display.init()
 pygame.font.init()
@@ -43,7 +45,7 @@ pygame.font.init()
 #############
 # CONSTANTS #
 #############
-PROFILE = False
+PROFILE = True
 WHITE = (255,255,255)
 BLACK = (0, 0, 0)
 #time_font = pygame.font.SysFont('monospace', 24)
@@ -744,6 +746,11 @@ if __name__ == '__main__':
                 statprof.stop()
                 statprof.display()
         except ImportError:'''
-        cProfile.run("main()", sort='tottime')
+        # cProfile.run("main()", sort='tottime')
+        def t(sim):
+            return False
+        profiler = grid_timing.GridSimTimeProfiler('examples/Other/test.txt')
+        profiler.timing_test(10000, t, 'test.csv');
+
     else:
         main()

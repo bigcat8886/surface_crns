@@ -7,6 +7,7 @@ class TimeProfiler():
         self.simulation = simulation
 
     def run_simulations(self, num_runs, stop_criteria, output_file):
+        print("running simulations")
         '''
         Run the simulation num_runs times, stopping according to user-defined 
         stop criteria, and printing simulation times to completion

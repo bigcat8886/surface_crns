@@ -36,7 +36,7 @@ class GridSimTimeProfiler():
             else:
                 self.DEBUG = bool(int(self.options['debug']))
         else:
-            self.DEBUG = debug
+            self.DEBUG = False
         if 'rng_seed' in self.options:
             self.RAND_SEED = int(self.options['rng_seed'])
         else:
