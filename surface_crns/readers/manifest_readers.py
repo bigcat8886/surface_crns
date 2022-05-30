@@ -4,6 +4,7 @@ import surface_crns.readers.transition_readers as transition_readers
 import surface_crns.readers.colormap_readers as colormap_readers
 import surface_crns.readers.grid_state_readers as grid_state_readers
 import surface_crns.readers.totalistic_readers as totalistic_readers
+import surface_crns.readers.constraints_readers as constraints_readers
 '''
 For external use
 '''
@@ -67,6 +68,9 @@ def parse_manifest_stream(manifest_stream):
         elif line.startswith(section_starts['colormap']):
             options['colormap'] = \
                          colormap_readers.parse_colormap_stream(manifest_stream)
+        elif line.startswith(section_starts['constraints']):
+            options['constraints'] = \
+                         constraints_readers.parse_constraints_stream(manifest_stream)
         elif line.startswith('!'):
             raise Exception('Unrecognized section declaration ' + line +
                             ' in manifest file')

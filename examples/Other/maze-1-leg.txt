@@ -1,0 +1,91 @@
+# sCRN implementation of a burnt-bridge walker
+#
+# This model is based on the "molecular spider" demonstrated in
+# "Molecular robots guided by prescriptive landscapes" by
+# Kyle Lund et al (Nature, 2010).  The SI for that work describes
+# a stochastic model that treats movements of each of the spider's
+# three legs individually; here we use a simpler coarse-grained
+# model that just tracks the effective movement of the spider
+# on both uncleaved substrate track and cleaved product track.
+# Our model would be more appropriate for the "catepillar" walker of
+# "A DNAzyme That Walks Processively andAutonomously along a One-Dimensional Track"
+# by Ye Tian et al (Angewandte Chemie, 2005), or
+# "A DNA-based molecular motor that can navigate a network of tracks"
+# by Wickham et al (Nature Nanotechnology, 2012), but for the
+# track configuration of Lund et al, and with a rate for movement
+# onto and within cleave product track that is more similar to Lund et al.
+#
+# The model uses surface species:
+#
+# _  : origami substrate without track
+# M  : inert marker on origami, just to match figure 1 of Lund et al.
+# S  : uncleaved substrate track
+# P  : cleaved product track
+# D  : uncleavable destination track
+# WS : walker on uncleaved substrate
+# WP : walker on cleaved product
+# WD : walker on uncleavable destination
+
+# Run settings
+pixels_per_node    = 15
+speedup_factor     = 200
+max_duration       = 10000000000
+node_display       = Color
+# geometry           = hex
+# rng_seed           = 123123123
+
+!START_COLORMAP
+_: (0,0,0)
+S: (222, 220, 220)
+P: (150, 149, 149)
+D: (14, 237, 63)
+WS: (207, 19, 19)
+WP: (207, 19, 19)
+WD: (235, 235, 2)
+!END_COLORMAP
+
+
+!START_TRANSITION_RULES
+WS -> WP (1)
+WP + S -> P + WS (1)
+WP + D -> P + WD (1)
+WP + P -> P + WP (-1)
+!END_TRANSITION_RULES
+
+!START_CONSTRAINTS
+!END_CONSTRAINTS
+
+!START_INIT_STATE
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S S WS _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S _ _ S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S S S S _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ S S S S S S _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ S S S S S S _ _ _ S S S S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ S S S S S S S S S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ _ _ _ _ _ _ _ _ S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ _ _ _ _ _ _ _ _ S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+!END_INIT_STATE

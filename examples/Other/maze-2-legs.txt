@@ -1,0 +1,100 @@
+# sCRN implementation of a molecular spider in maze
+#
+# The model uses surface species:
+#
+# _  : origami substrate without track
+# S  : uncleaved substrate track
+# P  : cleaved product track
+# D  : uncleavable destination track
+# WS1 : walker1 on uncleaved substrate
+# WP1 : walker1 on cleaved product
+# WD1 : walker1 on uncleavable destination
+# WS2 : walker2 on uncleaved substrate
+# WP2 : walker2 on cleaved product
+# WD2 : walker2 on uncleavable destination
+
+# Run settings
+pixels_per_node    = 15
+#fps = 60
+# debug = True
+speedup_factor     = 200
+max_duration       = 10000000000
+node_display       = Text
+# wrap = True
+# geometry           = hex
+# rng_seed           = 123123123
+movie_title = maze_2_legs
+# capture_directory = G:\CSE590C\results\maze-2-legs\
+
+!START_COLORMAP
+_: (0,0,0)
+S: (222, 220, 220)
+P: (150, 149, 149)
+D: (14, 237, 63)
+WS1: (207, 19, 19)
+WP1: (207, 19, 19)
+WD1: (235, 235, 2)
+WS2: (207, 19, 19)
+WP2: (207, 19, 19)
+WD2: (235, 235, 2)
+!END_COLORMAP
+
+
+!START_TRANSITION_RULES
+WS1 -> WP1 (1)
+WP1 + S -> P + WS1 (1)
+WP1 + D -> P + WD1 (1)
+WP1 + P -> P + WP1 (-1)
+WS2 -> WP2 (1)
+WP2 + S -> P + WS2 (1)
+WP2 + D -> P + WD2 (1)
+WP2 + P -> P + WP2 (-1)
+!END_TRANSITION_RULES
+
+!START_CONSTRAINTS
+WS1,WS2,2
+WS1,WP2,2
+WS1,WD2,2
+WP1,WP2,2
+WP1,WS2,2
+WP1,WD2,2
+WD1,WS2,2
+WD1,WD2,2
+WD1,WP2,2
+!END_CONSTRAINTS
+
+
+!START_INIT_STATE
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S WS2 WS1 _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S _ _ S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S S S S _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ S S S S S S _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ S S S S S S _ _ _ S S S S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ S S S S S S S S S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ _ _ _ _ _ _ _ _ S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ _ _ _ _ _ _ _ _ S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+!END_INIT_STATE

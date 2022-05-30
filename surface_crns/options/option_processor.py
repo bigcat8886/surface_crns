@@ -25,6 +25,7 @@ class SurfaceCRNOptionParser:
             self.update_rule = self.process_update_rule(options)
         elif self.simulation_type == 'asynchronous':
             self.transition_rules = self.process_transition_rules(options)
+            self.constraints = self.process_constraints(options)
         self.surface_geometry = self.process_surface_geometry(options)
         self.pixels_per_node = self.process_pixels_per_node(options)
         self.wrap_grid = self.process_wrap_grid(options)
@@ -138,6 +139,9 @@ class SurfaceCRNOptionParser:
 
     def process_update_rule(self, options):
         return options['totalistic_rule']
+
+    def process_constraints(self, options):
+        return options['constraints']
 
     def process_transition_rules(self, options):
         if self.debug:

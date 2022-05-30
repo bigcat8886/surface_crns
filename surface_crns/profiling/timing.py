@@ -27,9 +27,10 @@ class TimeProfiler():
                 print('running for r=', str(r))
                 mean_rt = 0
                 for sim in self.simulation_results(r, num_runs, stop_criteria):
+                    print('runtime:', str(sim.time))
                     mean_rt += sim.time / num_runs
                 print('mean time: ', str(mean_rt))
-                outstream.write(str(r) + ',' + str(sim.time) + "\n")
+                outstream.write(str(r) + ',' + str(mean_rt) + "\n")
 
     def simulation_results(self, r, num_runs, stop_criteria):
         '''

@@ -84,7 +84,8 @@ class GridSimTimeProfiler():
         self.simulation = simulators.QueueSimulator(surface = self.grid,
                                 transition_rules = self.transition_rules,
                                 # seed = self.RAND_SEED,
-                                simulation_duration = self.SIMULATION_DURATION)
+                                simulation_duration = self.SIMULATION_DURATION,
+                                constraints=self.options['constraints'])
 
     def timing_test(self, rng, num_runs, stop_criteria, output_file):
         '''
