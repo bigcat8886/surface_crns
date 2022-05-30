@@ -15,7 +15,7 @@ except ImportError:
     import sys
     sys.path.append("./")
 import surface_crns.readers as readers
-
+import numpy as np
 import os
 
 from surface_crns.options.option_processor import SurfaceCRNOptionParser
@@ -750,7 +750,8 @@ if __name__ == '__main__':
         def t(sim):
             return False
         profiler = grid_timing.GridSimTimeProfiler('examples/Other/test.txt')
-        profiler.timing_test(10000, t, 'test.csv');
+        rng = np.logspace(1,6,6,True,10)
+        profiler.timing_test(rng,100, t, 'test2.csv');
 
     else:
         main()

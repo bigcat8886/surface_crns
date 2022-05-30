@@ -1,6 +1,7 @@
 import numpy as np
 import random
 import math
+import time
 
 # Different queue timings:
 # To simulate & display 10 seconds with examples/Programmatic Interface/GH_big_spiral.py:
@@ -26,19 +27,18 @@ class QueueSimulator:
     Uses unimolecular and bimolecular reactions only.
     '''
     def __init__(self, surface = None, transition_rules = None, seed = None,
-                 simulation_duration = 100, debug = False):
+                 simulation_duration = 1000, debug = False):
         self.debug = debug
         if transition_rules is None:
-            self.rule_set = []
+            rule_set = []
         else:
-            self.rule_set = transition_rules
+            rule_set = transition_rules
 
         if seed:
             self.seed = seed
         else:
-            import time
             self.seed = int(time.time()) # use fractional seconds
-        random.seed(self.seed)
+        # random.seed(self.seed)
         self.simulation_duration = simulation_duration
         self.surface = surface
         self.init_state = surface.get_global_state()
@@ -46,15 +46,12 @@ class QueueSimulator:
         # Build a mapping of states to the possible transitions they could
         # undergo.
         self.rules_by_state = dict()
-        for rule in self.rule_set:
+        for rule in rule_set:
             for input_state in rule.inputs:
                 if not input_state in self.rules_by_state:
                     self.rules_by_state[input_state] = []
                 if not rule in self.rules_by_state[input_state]:
                     self.rules_by_state[input_state].append(rule)
-
-        self.time = 0
-        self.surface.set_global_state(self.init_state)
         if self.debug:
             print("QueueSimulator initialized with global state:")
             print(str(self.init_state))
@@ -62,10 +59,14 @@ class QueueSimulator:
         if self.debug:
             print(self.surface)
 
-    def reset(self):
+    def reset(self, r=None):
         '''
         Clear any reactions in the queue and populate with available reactions.
         '''
+        self.time = 0
+        self.dynamic_rate = r
+        self.surface.set_global_state(self.init_state)
+        random.seed(round(time.time() * 1000))
         self.event_queue = []
         self.initialize_reactions()
 
@@ -83,7 +84,10 @@ class QueueSimulator:
         True iff there are no more reactions or the simulation has reached
         final time.
         '''
-        return len(self.event_queue) == 0
+        qlen = len(self.event_queue)
+        return qlen == 0 or self.time > self.simulation_duration
+
+
 
     def process_next_reaction(self):
         local_debugging = False
@@ -98,7 +102,7 @@ class QueueSimulator:
         next_reaction = None
         while next_reaction is None:
             if len(self.event_queue) == 0:
-                self.time = self.simulation_duration
+                # self.time = self.simulation_duration
                 return None
 
             next_reaction = heapq.heappop(self.event_queue)
@@ -201,7 +205,10 @@ class QueueSimulator:
             # If it's a unimolecular reaction, we can now add the reaction to
             # the event queue.
             if len(rule.inputs) == 1:
-                time_to_reaction = np.log(1.0 / random.random()) / rule.rate
+                if rule.rate < 0:
+                    time_to_reaction = np.log(1.0 / random.random()) / self.dynamic_rate
+                else:
+                    time_to_reaction = np.log(1.0 / random.random()) / rule.rate
                 if math.isinf(time_to_reaction):
                     continue
                 event_time       = self.time + time_to_reaction
@@ -248,7 +255,10 @@ class QueueSimulator:
                     else:
                         num_reactions = 1
                     for x in range(num_reactions):
-                        rate = rule.rate * weight
+                        if rule.rate < 0:
+                            rate = self.dynamic_rate * weight
+                        else:
+                            rate = rule.rate * weight
                         time_to_reaction = np.log(1.0/random.random())/rate
                         if math.isinf(time_to_reaction):
                             continue
@@ -258,7 +268,7 @@ class QueueSimulator:
                         new_participants[1-node_index] = neighbor_node
                         # If counting the reaction twice, it needs to be flipped
                         # for the second reaction. Example: A + A -> B + C
-                        if x == 2:
+                        if x == 1:
                             new_participants.reverse()
                         new_event = Event(time = event_time,
                                           rule = rule,

@@ -1,3 +1,4 @@
+
 # sCRN implementation of a burnt-bridge walker
 #
 # This model is based on the "molecular spider" demonstrated in
@@ -28,72 +29,52 @@
 
 # Run settings
 pixels_per_node    = 15
-speedup_factor     = 50
+speedup_factor     = 200
 max_duration       = 1000000
 node_display       = Color
-geometry           = hex
+# geometry           = hex
 # rng_seed           = 123123123
 
 !START_COLORMAP
-_: (230,230,230)
-M: (0, 100, 255)
-S: (100, 30, 30)
-P: (200, 50, 50)
-D: (255, 0, 0)
-WS: (0, 150, 0)
-WP: (50, 220, 50)
-WD: (0, 150, 0)
+_: (0,0,0)
+S: (222, 220, 220)
+P: (150, 149, 149)
+D: (14, 237, 63)
+WS: (207, 19, 19)
+WP: (207, 19, 19)
+WD: (235, 235, 2)
 !END_COLORMAP
 
+
 !START_TRANSITION_RULES
-WS -> WP (0.1)
+WS -> WP (1)
 WP + S -> P + WS (1)
 WP + D -> P + WD (1)
-WP + P -> P + WP (0.1)
+WP + P -> P + WP (-1)
 !END_TRANSITION_RULES
 
 
-#!START_INIT_STATE
-#_ D D _ _ _ _ _ _ _
-#_ D _ _ _ _ M _ _ _
-#_ D D _ _ _ M M _ _
-#_ D _ _ _ _ M _ _ _
-#_ _ _ _ _ _ M M _ _
-#_ _ _ _ _ _ _ _ _ _
-#_ _ _ S S _ _ _ _ _
-#_ _ S S S _ _ _ _ _
-#_ _ S S S S _ _ _ _
-#_ S S S S S _ _ _ _
-#_ S S S S S S _ _ _
-#_ S _ _ S S S _ _ _
-#_ S S _ _ S S S _ _
-#_ S _ _ _ S S S _ _
-#_ S S _ _ _ S S S _
-#_ D _ _ _ _ S S S _
-#_ D D _ _ _ _ S S _
-#_ D _ _ _ _ _ S WS _
-#_ D D _ _ _ _ _ S _
-#_ _ _ _ _ _ _ _ _ _
-#!END_INIT_STATE
-
 !START_INIT_STATE
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-_ _ D D S S S S _ _ _ _ _ _ D D _
-_ _ D D S S S S _ _ _ _ _ D D _ _
-_ _ D D S S S S S _ _ _ _ _ D D _
-_ _ _ _ _ _ S S S _ _ _ _ _ _ _ _
-_ _ _ _ _ _ S S S _ _ _ _ _ _ _ _
-_ _ _ _ _ _ S S S _ _ _ _ _ _ _ _
-_ _ _ _ _ _ S S S _ _ _ _ _ _ _ _
-_ _ _ _ _ S S S _ _ _ _ _ _ _ _ _
-_ _ _ _ _ S S S _ _ _ _ _ _ _ _ _
-_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _
-_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _
-_ _ _ S S S _ _ _ _ _ M M _ _ _ _
-_ _ _ S S S _ _ _ _ _ _ M M _ _ _
-_ _ S S S _ _ _ _ _ _ M M _ _ _ _
-_ _ _ WS _ _ _ _ _ _ _ _ _ _ _ _ _
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+_ _ S S S S S S S S S S S S S S S _ _ S S S S S WS _ _
+_ _ S S S S S S S S S S S S S S S _ _ S S S S S S _ _
+_ _ S S _ _ _ _ _ _ _ S S _ _ _ _ _ _ _ _ _ _ S S _ _
+_ _ S S _ _ _ _ _ _ _ S S _ _ _ _ _ _ _ _ _ _ S S _ _
+_ _ S S _ _ S S S S S S S _ _ S S _ _ _ S S _ S S _ _
+_ _ S S _ _ S S S S S S S _ _ S S _ _ _ S S S S S _ _
+_ _ S S _ _ _ _ S S _ _ _ _ _ S S _ _ _ S S S S S _ _
+_ _ S S S S _ _ S S _ _ _ _ _ S S _ _ _ _ S S _ _ _ _
+_ _ S S S S _ _ S S S S S S S S S _ _ _ _ S S _ _ _ _
+_ _ _ _ S S _ _ S S S S S S S S S _ _ S S S S S S _ _
+_ _ _ _ S S _ _ _ _ _ _ _ S S _ _ _ _ S S S S S S _ _
+_ _ _ _ S S _ _ S S S S S S S _ _ _ _ S S _ _ S S _ _
+_ _ S S S S _ _ S S S S S S S S S S S S S _ _ S S _ _
+_ _ S S S S _ _ _ _ _ _ _ S S S S S S S S _ _ S S _ _
+_ _ S S _ _ _ S S S S S S S S _ _ S S _ _ _ _ S S _ _
+_ _ S S _ _ _ S S S S S S S S _ _ S S _ _ _ _ S S _ _
+_ _ D D _ _ _ _ _ S S _ _ _ _ _ _ S S S S _ _ S S _ _
+_ _ D D _ _ _ _ _ S S _ _ _ _ _ _ _ _ S S _ _ S S _ _
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 !END_INIT_STATE
