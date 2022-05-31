@@ -15,7 +15,7 @@ except ImportError:
     import sys
     sys.path.append("./")
 import surface_crns.readers as readers
-
+import numpy as np
 import os
 
 from surface_crns.options.option_processor import SurfaceCRNOptionParser
@@ -36,6 +36,8 @@ from time import process_time
 import pygame
 import pygame.locals as pygl
 
+from profiling import grid_timing
+
 
 pygame.display.init()
 pygame.font.init()
@@ -43,7 +45,7 @@ pygame.font.init()
 #############
 # CONSTANTS #
 #############
-PROFILE = False
+PROFILE = True
 WHITE = (255,255,255)
 BLACK = (0, 0, 0)
 #time_font = pygame.font.SysFont('monospace', 24)
@@ -255,7 +257,7 @@ def simulate_surface_crn(manifest_filename, display_class = None,
                             caption = 'Uncache')
     save_image_button = PygButton(rect =
         (button_buffer, button_y, 30, button_height))
-    assets_folder = os.path.join("G:\CSE590C\surface_crns\surface_crns", "assets")#surface_crns.__path__[0], "assets")
+    assets_folder = os.path.join("surface_crns", "assets")#surface_crns.__path__[0], "assets")
     camera_file = os.path.join(assets_folder, "camera.png")
     yellow_camera_file = os.path.join(assets_folder, "camera_yellow.png")
     green_camera_file  = os.path.join(assets_folder, "camera_green.png")
@@ -745,6 +747,12 @@ if __name__ == '__main__':
                 statprof.stop()
                 statprof.display()
         except ImportError:'''
-        cProfile.run("main()", sort='tottime')
+        # cProfile.run("main()", sort='tottime')
+        def t(sim):
+            return False
+        profiler = grid_timing.GridSimTimeProfiler('examples/Other/maze-1-leg.txt')
+        rng = np.logspace(1,6,6,True,10)
+        profiler.timing_test(rng,100, t, 'result-1-leg-2.csv');
+
     else:
         main()

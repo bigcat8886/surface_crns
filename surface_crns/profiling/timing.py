@@ -6,7 +6,8 @@ class TimeProfiler():
     def __init__(self, simulation):
         self.simulation = simulation
 
-    def run_simulations(self, num_runs, stop_criteria, output_file):
+    def run_simulations(self, rng, num_runs, stop_criteria, output_file):
+        print("running simulations")
         '''
         Run the simulation num_runs times, stopping according to user-defined 
         stop criteria, and printing simulation times to completion
@@ -21,11 +22,17 @@ class TimeProfiler():
                             run.
         '''
         with open(output_file, 'w') as outstream:
-            outstream.write("Run Times")
-            for sim in self.simulation_results(num_runs, stop_criteria):
-                outstream.write("\n" + str(self.simulation.time))
+            outstream.write("r,run_times\n")
+            for r in rng:
+                print('running for r=', str(r))
+                mean_rt = 0
+                for sim in self.simulation_results(r, num_runs, stop_criteria):
+                    print('runtime:', str(sim.time))
+                    mean_rt += sim.time / num_runs
+                print('mean time: ', str(mean_rt))
+                outstream.write(str(r) + ',' + str(mean_rt) + "\n")
 
-    def simulation_results(self, num_runs, stop_criteria):
+    def simulation_results(self, r, num_runs, stop_criteria):
         '''
         Generator yielding the end results of repeated simulations.
 
@@ -36,7 +43,8 @@ class TimeProfiler():
                                 criteria and False otherwisey. 
         '''
         for i in range(num_runs):
-            self.simulation.reset()
+            print("simulating #" + str(i+1))
+            self.simulation.reset(r)
             while not (self.simulation.done() or
                        stop_criteria(self.simulation)):
                 self.simulation.process_next_reaction()

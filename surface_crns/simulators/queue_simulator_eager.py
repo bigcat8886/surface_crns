@@ -84,8 +84,7 @@ class EagerQueueSimulator:
         True iff there are no more reactions or the simulation has reached
         final time.
         '''
-        return len(self.event_queue) == 0 \
-                or self.time >= self.simulation_duration
+        return len(self.event_queue) == 0
 
     def process_next_reaction(self):
         local_debugging = False

@@ -36,7 +36,7 @@ class GridSimTimeProfiler():
             else:
                 self.DEBUG = bool(int(self.options['debug']))
         else:
-            self.DEBUG = debug
+            self.DEBUG = False
         if 'rng_seed' in self.options:
             self.RAND_SEED = int(self.options['rng_seed'])
         else:
@@ -44,7 +44,7 @@ class GridSimTimeProfiler():
         if 'max_duration' in self.options:
             self.SIMULATION_DURATION = float(self.options['max_duration'])
         else:
-            self.SIMULATION_DURATION = 100
+            self.SIMULATION_DURATION = 10000
 
         # Load transition rules
         if 'transition_rules' in self.options:
@@ -83,10 +83,11 @@ class GridSimTimeProfiler():
         # Set up simulation timer
         self.simulation = simulators.QueueSimulator(surface = self.grid,
                                 transition_rules = self.transition_rules,
-                                seed = self.RAND_SEED,
-                                simulation_duration = self.SIMULATION_DURATION)
+                                # seed = self.RAND_SEED,
+                                simulation_duration = self.SIMULATION_DURATION,
+                                constraints=self.options['constraints'])
 
-    def timing_test(self, num_runs, stop_criteria, output_file):
+    def timing_test(self, rng, num_runs, stop_criteria, output_file):
         '''
         Run the simulation num_runs times, stopping according to user-defined
         stop criteria, and printing simulation times to completion
@@ -101,7 +102,7 @@ class GridSimTimeProfiler():
                             run.
         '''
         timer = TimeProfiler(self.simulation)
-        timer.run_simulations(num_runs, stop_criteria, output_file)
+        timer.run_simulations(rng, num_runs, stop_criteria, output_file)
 
     def correctness_test(self, num_runs, start_states, start_state_labels,
                         stop_criteria, output_function, output_labels,

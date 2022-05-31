@@ -18,7 +18,7 @@ pixels_per_node    = 15
 #fps = 60
 # debug = True
 speedup_factor     = 200
-max_duration       = 10000
+max_duration       = 10000000000
 node_display       = Text
 # wrap = True
 # geometry           = hex
@@ -44,11 +44,11 @@ WD2: (235, 235, 2)
 WS1 -> WP1 (1)
 WP1 + S -> P + WS1 (1)
 WP1 + D -> P + WD1 (1)
-WP1 + P -> P + WP1 (0.01)
+WP1 + P -> P + WP1 (-1)
 WS2 -> WP2 (1)
 WP2 + S -> P + WS2 (1)
 WP2 + D -> P + WD2 (1)
-WP2 + P -> P + WP2 (0.01)
+WP2 + P -> P + WP2 (-1)
 !END_TRANSITION_RULES
 
 !START_CONSTRAINTS
@@ -65,15 +65,36 @@ WD1,WP2,2
 
 
 !START_INIT_STATE
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-_ _ S S S S S S S S S S S S S S S S S S S S S WS2 WS1 _ _
-_ _ S S S S S S S S S S S S S S S S S S S S S S S _ _
-_ _ S S S S S S S S S S S S S S S S S S S S S S S _ _
-_ _ S S S S S S S S S S S S S S S S S S S S S S S _ _
-_ _ S S S S S S S S S S S S S S S S S S S S S S S _ _
-_ _ D D S S S S S S S S S S S S S S S S S S S S S _ _
-_ _ D D S S S S S S S S S S S S S S S S S S S S S _ _
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S WS2 WS1 _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ S S S S S S S S S S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _
+_ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S _ _ S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S _ _ _ S S S S S S S S S S S _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ S S S S S S S S _ 
+_ S S S S S S _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ S S S S S S _ _ _ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ S S S S S S _ _ _ S S S S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S S S S _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ S S S S S S S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ _ _ _ S S S _ _ _ S S S S S S S S S S S _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ S S S S S S S S S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ _ _ _ _ _ _ _ _ S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S S S S _ _ _ _ _ _ _ _ _ _ _ S S S S S S S S S S S S _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ S S S S S S S S S S S S S _ _ _ S S S _ _ _ _ _ _ S S S _ 
+_ S S S _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ S S S S S S _ _ _ S S S _ 
+_ D D D _ _ _ _ _ _ _ _ S S S _ _ _ _ _ _ _ _ _ _ _ _ S S S _ _ _ S S S _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 !END_INIT_STATE
